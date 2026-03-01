@@ -1,21 +1,52 @@
 # Contributing to Clade
 
-## What We Need Most
+## The Philosophy
 
-1. **Test against your agent's actual memory files** — whatever format, point Clade at them and report what breaks
-2. **Share memory formats we haven't seen** — so we can verify the LLM handles them
-3. **Edge cases** — 500+ memories? Conflicting timestamps? Multiple languages? Mixed formats?
+Clade has no adapter layer. The LLM reads any format directly. This means contributions look different from most open source projects.
 
-## How to Test
+## What We Need
 
-```bash
-python clade.py --store-a your_agent_memories.json --store-b another_agent.txt --dry-run
-```
+### 1. Real-World Testing (Most Valuable)
 
-If the LLM gets confused by your format, open an issue with:
-- The file format (anonymized if needed)
-- What the LLM got wrong
-- What model you used
+Point Clade at your actual agent memory files. The ones your tools produce in production. Run a sync. Tell us:
+
+- What format were your files?
+- Did the LLM correctly identify the format?
+- Did it extract all memories accurately?
+- Were conflicts detected correctly?
+- What broke?
+
+Open an issue with your findings. Anonymize any personal data.
+
+### 2. Format Samples
+
+If your agent stores memories in a format we haven't tested, share an anonymized sample. We'll add it to the test suite.
+
+Formats we've tested: JSON, Markdown, YAML, plaintext
+
+Formats we want to test: SQLite dumps, CSV, TOML, XML, Letta blocks, LangChain stores, MemGPT archives, CrewAI logs
+
+### 3. Edge Cases
+
+- Stores with 500+ memories
+- Memories in multiple languages
+- Conflicting timestamps across time zones
+- Mixed formats within a single file
+- Emoji and special characters in memories
+- Very long individual memories (1000+ words)
+
+### 4. Model Testing
+
+Clade works with any Ollama model. We've tested:
+- llama3.1:70b (best quality, slow)
+- qwen2.5:72b (good quality, slow)
+- llama3.1:8b (good enough for small stores, fast)
+
+Test with your preferred model and report accuracy.
+
+### 5. Integration Guides
+
+Want to embed Clade in your app or framework? The engine is ~150 lines and MIT licensed. Write a guide and we'll link it.
 
 ## Pull Requests
 

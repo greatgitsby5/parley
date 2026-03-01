@@ -1,0 +1,19 @@
+agent: research-assistant
+last_sync: 2026-02-25
+memories:
+  - type: preference
+    content: User prefers long-form analysis over summaries
+    confidence: high
+  - type: context
+    content: User is developing an AI companion app
+    details: Called Scope, local-first architecture
+    confidence: high
+  - type: personal
+    content: User lives in Frankfurt
+    updated: 2026-02-28
+  - type: interest
+    content: Comparative religion and Gnostic traditions
+    confidence: medium
+  - type: workflow
+    content: User works 18-hour days with AI assistants
+    confidence: high

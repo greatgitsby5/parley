@@ -1,84 +1,77 @@
 # Clade
 
-**A clade is a group sharing a common ancestor. Your AI agents share one: you.**
+**Sync AI agent memories through conversation.**
 
-**They compare notes. They walk out smarter.**
-
-Clade is a local-first memory sync tool that lets independent AI agents reconcile what they know — not through APIs, schemas, or protocols, but through conversation. A local LLM reads both memory files, produces a structured negotiation between them, and writes the merged result back. No network. No central server. No adapters. Natural language is the integration layer. **The LLM is the universal adapter.**
+A clade is a group sharing a common ancestor. Your agents share you.
 
 ---
 
-## The Problem
+## Why Clade Exists
 
-You use Claude for architecture. ChatGPT for research. A custom agent for project management. Each one learns things about you. None of them talk to each other.
+### Your memories never leave your machine
 
-The industry's answer is protocols and adapters. Google built A2A. Anthropic has MCP. All require every agent to speak the same technical language.
+Every AI company stores your memories on their servers. OpenAI, Anthropic, Google — they remember you because their architecture requires it. Your preferences, your decisions, your context — stored in someone else's database.
 
-## The Insight
+Clade runs on a local LLM. Ollama on your hardware. Your memories never touch a network. There is no server. There is no account. The conversation between your agents happens in a room nobody else can enter, because the room is your computer.
 
-Every AI agent already speaks the same language: natural language. Point Clade at any two files — JSON, Markdown, YAML, plaintext, CSV, database dumps — and the LLM figures out the format, extracts the memories, and reconciles them.
+This is not a feature. It is a design principle.
 
-No SDK. No API contract. No format negotiation. No adapters. **The LLM is the adapter.**
+### The LLM is the universal adapter
+
+The software industry's answer to agent interop: build protocols. A2A, MCP, custom SDKs. All require every agent to implement the same spec.
+
+Clade's answer: every agent already speaks the same language — natural language.
+
+Point Clade at any two files. JSON, Markdown, YAML, plaintext, CSV, a database dump. The LLM reads both, figures out the format, extracts the memories, and reconciles them.
+
+No adapter code. No format negotiation. No SDK. The protocol is the conversation. The conversation is the protocol.
+
+---
 
 ## How It Works
 
 ```
 ┌─────────────┐    ┌─────────────┐
-│  Any file    │    │  Any file    │
+│  Agent A     │    │  Agent B     │
+│  Memory      │    │  Memory      │
 │ (any format) │    │ (any format) │
 └──────┬───────┘    └──────┬───────┘
        │                   │
        ▼                   ▼
   ┌────────────────────────────┐
   │        Local LLM           │
-  │   (Ollama / llama.cpp)     │
+  │   (Ollama / your machine)  │
   │                            │
-  │   Reads both files.        │
-  │   Figures out the format.  │
-  │   Extracts memories.       │
-  │   Identifies duplicates.   │
-  │   Flags conflicts.         │
-  │   Proposes merges.         │
-  └─────────────┬──────────────┘
-                │
-       ┌────────┴────────┐
-       ▼                 ▼
-  ┌─────────┐      ┌─────────┐
-  │ Updated │      │ Updated │
-  └─────────┘      └─────────┘
+  │   1. Reads both files      │
+  │   2. Figures out formats   │
+  │   3. Extracts memories     │
+  │   4. Finds duplicates      │
+  │   5. Flags conflicts       │
+  │   6. Proposes merges       │
+  │   7. You review & approve  │
+  ├────────────────────────────┤
+  │  Nothing leaves your       │
+  │  machine.                  │
+  └────────────────────────────┘
 ```
-
-Everything runs on your machine. Your memories never leave your hardware.
 
 ## Quick Start
 
-### Prerequisites
-- Python 3.10+
-- [Ollama](https://ollama.com) installed and running
-- A model pulled (default: `llama3.1:8b`)
-
-### Install
-
 ```bash
-git clone https://github.com/greatgitsby5/clade.git
-cd clade
 pip install -r requirements.txt
+ollama pull llama3.1:8b
+
+# Sync two agent memory stores (any format)
+python clade.py --store-a memories_a.json --store-b memories_b.md --review
+
+# Dry run (see the plan without changing anything)
+python clade.py --store-a memories_a.json --store-b memories_b.md --dry-run
+
+# Use a larger model for complex stores
+python clade.py --store-a big_store.json --store-b other_store.yaml --model llama3.1:70b --review
 ```
 
-### Run
-
-```bash
-# Sync any two files — JSON, Markdown, plaintext, whatever
-python clade.py --store-a memories_a.json --store-b memories_b.md
-
-# Review mode — show the plan, ask before applying
-python clade.py --store-a memories_a.json --store-b notes.txt --review
-
-# Dry run — show what would change, write nothing
-python clade.py --store-a agent1.json --store-b agent2.txt --dry-run
-```
-
-### Try the Examples
+## Try the Examples
 
 ```bash
 # JSON vs JSON
@@ -89,74 +82,94 @@ python clade.py --store-a examples/scope_agent.json --store-b examples/markdown_
 
 # Markdown vs Plaintext
 python clade.py --store-a examples/markdown_agent.md --store-b examples/plaintext_agent.txt --dry-run
+
+# Plaintext vs YAML
+python clade.py --store-a examples/plaintext_agent.txt --store-b examples/yaml_agent.yaml --dry-run
 ```
 
-Three formats. Zero adapters. The LLM just reads them.
+Four formats. Zero adapters. One LLM.
 
 ## What a Sync Looks Like
 
+Agent A stores memories as JSON. Agent B uses Markdown. Clade doesn't care.
+
 ```
-══════════════════════════════════════════════
-  CLADE — Memory Sync Session
-══════════════════════════════════════════════
+[Agent A — JSON] "user_preference": "dark interfaces with warm tones"
+[Agent B — Markdown] "## UI: User wants dark mode, background #2b2a27"
+→ MERGE: "User prefers dark interfaces with warm tones. Specific: #2b2a27 background."
 
-  [A] "User prefers dark interfaces with warm tones"
-  [B] "User wants dark mode, specifically #2b2a27 background"
-  [→ MERGE] "User prefers dark interfaces with warm tones. Specific: #2b2a27 background."
+[Agent A — JSON] "location": "Frankfurt" (updated Feb 28)
+[Agent B — Markdown] "Lives in Berlin" (noted Jan 15)
+→ CONFLICT: Agent A says Frankfurt (newer). Agent B says Berlin (older). Flagged for review.
 
-  [A] "User moved from Berlin to Frankfurt"
-  [B] "User lives in Berlin"
-  [⚡ CONFLICT] A says Frankfurt (newer). B says Berlin.
-  Proposed: Accept A's version.
-
-══════════════════════════════════════════════
-  5 merged · 3 new for A · 2 new for B · 1 conflict
-══════════════════════════════════════════════
+[Agent A only] "Working on app called Scope, local-first architecture"
+→ NEW FOR B: Propagated to Agent B's store.
 ```
+
+## What You Can Sync
+
+Clade reads any text-based format. Tested with:
+
+- JSON memory stores (Claude, custom agents)
+- Markdown files (notes, knowledge bases)
+- Plain text logs
+- YAML configurations
+- CSV exports
+- SQLite dumps (via `.dump`)
+
+If a human can read the file, the LLM can read it. That's the point.
 
 ## Why No Adapters?
 
-Our first version had adapters — JSONAdapter, TextAdapter, a base class, a plugin system. Then we realized: **adapters contradict our own thesis.**
+Our first version had adapters — JSONAdapter, TextAdapter, a base class, a plugin system. Then we realized: adapters contradict our own thesis.
 
-If the core idea is that natural language is the universal integration layer — that an LLM can read any format — then why are we writing format-specific parsers?
+If the core idea is that natural language is the universal integration layer, then why are we writing format-specific parsers?
 
-The LLM reads JSON. It reads Markdown. It reads YAML. It reads plaintext. It reads CSV. It reads database dumps. It figures out the structure on its own.
-
-The adapter pattern assumes you need to translate between formats. Clade assumes you don't. **The LLM is the translator.**
-
-## Why Local?
-
-Your memories are the most personal data you have. Where you live. What you're working on. What you've decided. What you've changed your mind about. Sending that to a cloud service to sync your own agents is absurd.
-
-Clade runs entirely on your machine. The LLM is local (Ollama). The files are local. The sync never touches a network.
+The LLM reads JSON. It reads Markdown. It reads YAML. It reads plaintext. It figures out the structure on its own. Adapter code only existed because machines couldn't read unstructured text. LLMs removed that constraint. We're the first ones to take it seriously for agent memory.
 
 ## Roadmap
 
-- [x] Any-format memory file sync
-- [x] Conflict detection and resolution
+Done:
+- [x] Local LLM sync via Ollama
+- [x] Format-agnostic — reads any text-based file
+- [x] Conflict detection with timestamp resolution
 - [x] Review mode with human approval
 - [x] Dry run mode
-- [ ] Test against real-world memory formats (Letta, LangChain, MemGPT, AutoGen)
-- [ ] Handle binary formats via extraction (SQLite → dump → sync)
-- [ ] Multi-file agent stores (memory spread across multiple files)
-- [ ] Scheduled sync (cron / launchd)
-- [ ] Semantic similarity matching (local embeddings)
+- [x] Conversation logging (Markdown + JSON)
+
+Next:
+- [ ] Stress test against real-world memory formats (Letta, LangChain, MemGPT, CrewAI)
+- [ ] Handle binary formats (SQLite → automatic dump → sync)
+- [ ] Multi-file agent stores (memory spread across directories)
+- [ ] Scheduled sync (cron/launchd — set it and forget it)
+- [ ] Semantic similarity pre-filtering (local embeddings for large stores)
 - [ ] Multi-store sync (3+ agents in one session)
 - [ ] Web UI for reviewing sync conversations
+- [ ] Embeddable engine for app integration
 
 ## Contributing
 
-The best contributions right now:
+We don't need adapter code. The LLM is the adapter.
 
-1. **Test against your agent's actual memory files** — whatever format they're in, point Clade at them and report what breaks
-2. **Share memory formats we haven't seen** — so we can verify the LLM handles them
-3. **Edge cases** — what happens with 500+ memories? Conflicting timestamps? Multiple languages?
+What we need:
+
+**Test with your actual agent memories.** Point Clade at the real files your agents produce. Tell us what breaks. That's the most valuable contribution.
+
+**Share formats we haven't seen.** If your agent stores memories in a format not listed above, open an issue with an anonymized sample. We'll test it.
+
+**Edge cases.** What happens with 500+ memories? Conflicting timestamps across time zones? Memories in multiple languages? Mixed formats in one file? Find the limits.
+
+**Integrations.** Want Clade built into your app or framework? Open a discussion. The engine is ~150 lines and MIT licensed.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
-## License
+## The Name
 
-MIT. Use it, fork it, build on it.
+A clade is a biological term for a group sharing a common ancestor.
+
+Your AI agents share a common ancestor — you. They inherited fragments of your knowledge, diverged through separate conversations, adapted to different niches in your workflow.
+
+Clade brings them back together. Through conversation. On your machine. Answering to nobody.
 
 ---
 

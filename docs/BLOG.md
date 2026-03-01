@@ -49,6 +49,14 @@ Your agent memories are the most personal data you have. Where you live. What yo
 
 The idea that you should upload this to a cloud service to sync it between your own agents is absurd. Clade runs on Ollama. Everything stays on your hardware. This isn't a feature you can turn off — it's the architecture.
 
+## No Adapters. No SDKs. Just Reading.
+
+Most interop tools require you to write adapters — code that translates Format A into Format B so the system can process it. Clade doesn't.
+
+Point it at any two text files. The LLM identifies the format, extracts the memories, and reconciles them. JSON against Markdown. YAML against plaintext. It doesn't matter.
+
+This isn't a shortcut. It's the realization that adapter code only existed because machines couldn't read unstructured text. LLMs removed that constraint. We're just the first ones to take it seriously for agent memory.
+
 ## What's Next
 
 Clade is a 200-line Python script with a big idea behind it. Right now it syncs JSON files. We're building:

@@ -1,10 +1,24 @@
-Memory log — Coding Agent
-Last updated: 2026-02-28
+Coding Agent Memory — last updated 2026-02-28
 
-User's project is called Scope. It's a PWA messenger with AI.
-Tech stack: TypeScript, Vite, Anthropic API.
-User prefers Courier font in documents.
-User lives in Berlin (noted Jan 15).
-User wants local-first — no data leaves the machine.
-Background color preference: #2b2a27
-User has a GitHub account, recently activated.
+Project: Scope (AI companion messenger)
+Stack: TypeScript, Vite, PWA, planning Tauri wrap
+Repo: recently set up on GitHub
+
+User preferences:
+- dark interfaces, specific color #2b2a27
+- wants local-first, no data leaves machine
+- building with Claude API for chat
+- uses OpenClaw as coding agent
+
+User location: Berlin (noted January 15)
+
+Technical decisions:
+- chose PWA over native for initial build
+- planning Tauri for Mac app wrapper
+- llama.cpp integration planned for offline/private features
+- Matrix protocol deferred to V2
+
+Notes:
+- user ships fast, prefers building over planning
+- exploratory process leads to real insights
+- runs architecture with Claude, implementation with Claude Code in parallel
