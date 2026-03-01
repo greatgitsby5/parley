@@ -1,4 +1,4 @@
-# Contributing to Parley
+# Contributing to Clade
 
 ## What We Need Most
 
@@ -9,7 +9,7 @@
 ## Writing an Adapter
 
 ```python
-from parley import MemoryAdapter
+from clade import MemoryAdapter
 
 class MyAdapter(MemoryAdapter):
     def read(self, path: str) -> list[dict]:
@@ -23,12 +23,12 @@ class MyAdapter(MemoryAdapter):
 
 Use it:
 ```bash
-python parley.py --store-a file.json --store-b custom.db --adapter-b my_adapter.MyAdapter
+python clade.py --store-a file.json --store-b custom.db --adapter-b my_adapter.MyAdapter
 ```
 
 ## Pull Requests
 
-- Keep it simple. Parley is ~200 lines for a reason.
+- Keep it simple. Clade is ~200 lines for a reason.
 - Test with real memory files if possible.
 - One feature per PR.
 

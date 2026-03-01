@@ -1,8 +1,10 @@
-# Parley
+# Clade
 
-**Two AI agents walk into a room. They compare notes. They walk out smarter.**
+**A clade is a group sharing a common ancestor. Your AI agents share one: you.**
 
-Parley is a local-first memory sync tool that lets independent AI agents reconcile what they know — not through APIs, schemas, or protocols, but through conversation.
+**They compare notes. They walk out smarter.**
+
+Clade is a local-first memory sync tool that lets independent AI agents reconcile what they know — not through APIs, schemas, or protocols, but through conversation.
 
 A local LLM reads both memory stores, produces a structured negotiation between them, and writes the merged result back. No network. No central server. No shared database. Natural language is the integration layer.
 
@@ -20,7 +22,7 @@ Every AI agent already speaks the same language: natural language.
 
 If an agent can read memories and write memories — in any format, any schema, any structure — then a local LLM can translate between them. No SDK. No API contract. No format negotiation. The LLM is the universal translator.
 
-Parley treats memory sync as a conversation, not a protocol.
+Clade treats memory sync as a conversation, not a protocol.
 
 ## How It Works
 
@@ -65,8 +67,8 @@ Everything runs on your machine. Your memories never leave your hardware.
 ### Install
 
 ```bash
-git clone https://github.com/greatgitsby5/parley.git
-cd parley
+git clone https://github.com/greatgitsby5/clade.git
+cd clade
 pip install -r requirements.txt
 ```
 
@@ -74,35 +76,35 @@ pip install -r requirements.txt
 
 ```bash
 # Basic sync between two memory files
-python parley.py --store-a memories_a.json --store-b memories_b.json
+python clade.py --store-a memories_a.json --store-b memories_b.json
 
 # Use a specific model
-python parley.py --store-a memories_a.json --store-b memories_b.json --model mistral
+python clade.py --store-a memories_a.json --store-b memories_b.json --model mistral
 
 # Review mode — show the conversation, ask before writing
-python parley.py --store-a memories_a.json --store-b memories_b.json --review
+python clade.py --store-a memories_a.json --store-b memories_b.json --review
 
 # Dry run — show what would change, write nothing
-python parley.py --store-a memories_a.json --store-b memories_b.json --dry-run
+python clade.py --store-a memories_a.json --store-b memories_b.json --dry-run
 ```
 
 ### Try the Example
 
 ```bash
 # Run with the included example memories
-python parley.py \
+python clade.py \
   --store-a examples/scope_agent.json \
   --store-b examples/openclaw_agent.json \
   --review
 ```
 
-This syncs memories between a Claude companion agent (Scope) and a coding agent (OpenClaw). They know overlapping things about the same project, but from different angles. Parley reconciles them.
+This syncs memories between a Claude companion agent (Scope) and a coding agent (OpenClaw). They know overlapping things about the same project, but from different angles. Clade reconciles them.
 
 ## What a Sync Looks Like
 
 ```
 ══════════════════════════════════════════
-  PARLEY — Memory Sync Session
+  CLADE — Memory Sync Session
   2026-03-01 18:42:03
   Store A: scope_agent.json (14 memories)
   Store B: openclaw_agent.json (9 memories)
@@ -144,7 +146,7 @@ This syncs memories between a Claude companion agent (Scope) and a coding agent 
 
 ## Memory Store Format
 
-Parley works with any JSON structure. Memories just need to be readable text. But if you want the richest sync, use this minimal format:
+Clade works with any JSON structure. Memories just need to be readable text. But if you want the richest sync, use this minimal format:
 
 ```json
 [
@@ -160,7 +162,7 @@ Parley works with any JSON structure. Memories just need to be readable text. Bu
 
 **Supported types:** `fact`, `decision`, `correction`, `preference`
 
-But Parley doesn't enforce this. If your agent stores memories as plain text lines, Markdown, YAML, or a custom schema — Parley reads it. The LLM figures out the structure. That's the point.
+But Clade doesn't enforce this. If your agent stores memories as plain text lines, Markdown, YAML, or a custom schema — Clade reads it. The LLM figures out the structure. That's the point.
 
 ### Custom Adapters
 
@@ -168,7 +170,7 @@ For non-JSON stores, write a simple adapter:
 
 ```python
 # adapters/my_agent.py
-from parley.adapter import MemoryAdapter
+from clade.adapter import MemoryAdapter
 
 class MyAgentAdapter(MemoryAdapter):
     def read(self, path: str) -> list[dict]:
@@ -181,7 +183,7 @@ class MyAgentAdapter(MemoryAdapter):
 ```
 
 ```bash
-python parley.py \
+python clade.py \
   --store-a memories.json \
   --store-b custom_store.db \
   --adapter-b adapters.my_agent.MyAgentAdapter
@@ -189,7 +191,7 @@ python parley.py \
 
 ## Configuration
 
-Create a `parley.yaml` in your project root (optional):
+Create a `clade.yaml` in your project root (optional):
 
 ```yaml
 # Model settings
@@ -210,13 +212,13 @@ redact_patterns:             # Never sync memories matching these patterns
   - "credit card"
 
 # Logging
-save_conversations: true     # Save sync conversations to ./parley_logs/
+save_conversations: true     # Save sync conversations to ./clade_logs/
 log_format: markdown         # markdown or json
 ```
 
 ## How It Actually Works (Under the Hood)
 
-Parley runs a three-phase sync:
+Clade runs a three-phase sync:
 
 **Phase 1: Analysis.** The local LLM receives both memory stores and produces a structured comparison — which memories are duplicates (same fact, different words), which are unique to one store, and which conflict.
 
@@ -230,13 +232,13 @@ The entire sync happens in a single LLM call for small stores (<50 memories each
 
 Because APIs require agreement. Both agents need to implement the same endpoints, the same schema, the same auth. That works inside one company's ecosystem. It doesn't work when you're syncing between an OpenClaw bot, a custom LangChain agent, a Claude wrapper, and a local Ollama setup.
 
-Natural language requires no agreement. If an agent can express what it knows in words, Parley can sync it. The barrier to integration is zero.
+Natural language requires no agreement. If an agent can express what it knows in words, Clade can sync it. The barrier to integration is zero.
 
 ## Why Local?
 
 Your memories are the most personal data you have. Where you live. What you're working on. What you've decided. What you've changed your mind about. Sending that to a cloud service to sync it defeats the purpose of having a personal agent.
 
-Parley runs entirely on your machine. The LLM is local (Ollama). The stores are local files. The sync conversation never touches a network. This isn't a feature. It's the architecture.
+Clade runs entirely on your machine. The LLM is local (Ollama). The stores are local files. The sync conversation never touches a network. This isn't a feature. It's the architecture.
 
 ## Roadmap
 
@@ -253,7 +255,7 @@ Parley runs entirely on your machine. The LLM is local (Ollama). The stores are 
 
 ## Contributing
 
-Parley is early. If you're building agent systems and this resonates, we'd love your input.
+Clade is early. If you're building agent systems and this resonates, we'd love your input.
 
 The best contributions right now:
 1. **Adapters** — write a reader/writer for your agent's memory format

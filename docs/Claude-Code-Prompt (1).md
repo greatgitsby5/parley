@@ -1,16 +1,16 @@
-# Claude Code — Parley Launch Prompt
+# Claude Code — Clade Launch Prompt
 
 Copy and paste this entire prompt into Claude Code:
 
 ---
 
-I have a project called Parley in my home directory at ~/parley (or wherever you extracted the tarball). It's a local-first memory sync tool — two AI agent memory stores get reconciled by a local LLM through conversation.
+I have a project called Clade in my home directory at ~/clade (or wherever you extracted the tarball). It's a local-first memory sync tool — two AI agent memory stores get reconciled by a local LLM through conversation.
 
 Here's what I need you to do, in order:
 
 ## 1. Find and set up the project
 
-Look at the parley/ directory. Familiarize yourself with the structure: parley.py, README.md, examples/, adapters/, BLOG.md, TWITTER_THREAD.md, CONTRIBUTING.md, LICENSE, requirements.txt.
+Look at the clade/ directory. Familiarize yourself with the structure: clade.py, README.md, examples/, adapters/, BLOG.md, TWITTER_THREAD.md, CONTRIBUTING.md, LICENSE, requirements.txt.
 
 ## 2. Replace placeholder GitHub username
 
@@ -19,11 +19,11 @@ Replace every occurrence of `yourusername` in README.md, BLOG.md, and TWITTER_TH
 ## 3. Initialize git and create the GitHub repo
 
 ```
-cd parley
+cd clade
 git init
 git add .
 git commit -m "Initial commit — memory sync through conversation"
-gh repo create parley --public --description "Sync AI agent memories through conversation. No protocol needed. Local LLM as the universal translator." --source . --push
+gh repo create clade --public --description "Sync AI agent memories through conversation. No protocol needed. Local LLM as the universal translator." --source . --push
 ```
 
 If `gh` isn't installed, install it first (`brew install gh`).
@@ -34,7 +34,7 @@ Make sure Ollama is running (`ollama serve` if not). Then run:
 
 ```
 pip install -r requirements.txt
-python parley.py --store-a examples/scope_agent.json --store-b examples/openclaw_agent.json --dry-run --review
+python clade.py --store-a examples/scope_agent.json --store-b examples/openclaw_agent.json --dry-run --review
 ```
 
 Look at the output. Check:
@@ -70,7 +70,7 @@ git push --tags
 
 ## 8. Verify
 
-- Check that the repo is live at github.com/[username]/parley
+- Check that the repo is live at github.com/[username]/clade
 - Make sure the README renders correctly on GitHub
 - Confirm the example files are in the repo
 

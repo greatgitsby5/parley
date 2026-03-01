@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Parley — Memory sync through conversation.
+Clade — Memory sync through conversation.
 
 Two AI agent memory stores walk in. A local LLM reconciles them.
 No protocol. No schema agreement. Just conversation.
@@ -37,14 +37,14 @@ CHUNK_SIZE = 40  # memories per LLM call before chunking
 
 BANNER = """
 ╔══════════════════════════════════════════════╗
-║  PARLEY — Memory Sync Through Conversation   ║
+║  CLADE — Memory Sync Through Conversation   ║
 ╚══════════════════════════════════════════════╝"""
 
 
 # ── Config ────────────────────────────────────────────────────
 
 def load_config() -> dict:
-    """Load parley.yaml if it exists."""
+    """Load clade.yaml if it exists."""
     config = {
         "model": DEFAULT_MODEL,
         "ollama_url": DEFAULT_OLLAMA_URL,
@@ -55,7 +55,7 @@ def load_config() -> dict:
         "save_conversations": True,
         "log_format": "markdown",
     }
-    config_path = Path("parley.yaml")
+    config_path = Path("clade.yaml")
     if config_path.exists() and HAS_YAML:
         with open(config_path) as f:
             user_config = yaml.safe_load(f) or {}
@@ -345,7 +345,7 @@ def apply_sync(actions: list[dict], store_a: list[dict], store_b: list[dict],
             merged_memory = {
                 "content": act["merged"],
                 "type": "fact",
-                "source": "parley_sync",
+                "source": "clade_sync",
                 "updated": now,
             }
             idx_a = int(act.get("store_a_index", 0)) - 1
@@ -365,7 +365,7 @@ def apply_sync(actions: list[dict], store_a: list[dict], store_b: list[dict],
             new_memory = {
                 "content": act.get("content", ""),
                 "type": "fact",
-                "source": "parley_sync",
+                "source": "clade_sync",
                 "created": now,
                 "updated": now,
             }
@@ -375,7 +375,7 @@ def apply_sync(actions: list[dict], store_a: list[dict], store_b: list[dict],
             new_memory = {
                 "content": act.get("content", ""),
                 "type": "fact",
-                "source": "parley_sync",
+                "source": "clade_sync",
                 "created": now,
                 "updated": now,
             }
@@ -392,7 +392,7 @@ def apply_sync(actions: list[dict], store_a: list[dict], store_b: list[dict],
                 resolved = {
                     "content": content,
                     "type": "correction",
-                    "source": "parley_sync",
+                    "source": "clade_sync",
                     "updated": now,
                 }
                 idx_a = int(act.get("store_a_index", 0)) - 1
@@ -413,7 +413,7 @@ def save_log(actions: list[dict], name_a: str, name_b: str,
     if not config.get("save_conversations", True):
         return
 
-    log_dir = Path("parley_logs")
+    log_dir = Path("clade_logs")
     log_dir.mkdir(exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -430,7 +430,7 @@ def save_log(actions: list[dict], name_a: str, name_b: str,
             }, f, indent=2)
     else:
         with open(log_path, "w") as f:
-            f.write(f"# Parley Sync — {timestamp}\n\n")
+            f.write(f"# Clade Sync — {timestamp}\n\n")
             f.write(f"**Store A:** {name_a} ({len(store_a)} memories)\n")
             f.write(f"**Store B:** {name_b} ({len(store_b)} memories)\n\n")
             for act in actions:
@@ -445,7 +445,7 @@ def save_log(actions: list[dict], name_a: str, name_b: str,
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Parley — Sync agent memories through conversation."
+        description="Clade — Sync agent memories through conversation."
     )
     parser.add_argument("--store-a", required=True, help="Path to first memory store")
     parser.add_argument("--store-b", required=True, help="Path to second memory store")

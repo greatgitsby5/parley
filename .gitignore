@@ -1,7 +1,7 @@
 __pycache__/
 *.pyc
 .env
-parley_logs/
+clade_logs/
 *.egg-info/
 dist/
 build/

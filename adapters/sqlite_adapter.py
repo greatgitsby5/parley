@@ -2,7 +2,7 @@
 Example adapter: SQLite memory store.
 
 Usage:
-    python parley.py \
+    python clade.py \
         --store-a memories.json \
         --store-b agent.db \
         --adapter-b adapters.sqlite_adapter.SQLiteAdapter
@@ -55,7 +55,7 @@ class SQLiteAdapter:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 content TEXT NOT NULL,
                 type TEXT DEFAULT 'fact',
-                source TEXT DEFAULT 'parley_sync',
+                source TEXT DEFAULT 'clade_sync',
                 created TEXT,
                 updated TEXT
             )
@@ -71,7 +71,7 @@ class SQLiteAdapter:
                 (
                     m.get("content", str(m)),
                     m.get("type", "fact"),
-                    m.get("source", "parley_sync"),
+                    m.get("source", "clade_sync"),
                     m.get("created", now),
                     m.get("updated", now),
                 )

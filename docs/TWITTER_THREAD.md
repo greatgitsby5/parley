@@ -10,7 +10,7 @@ Claude knows your design preferences. ChatGPT knows your research. Your coding b
 
 None of them share what they know.
 
-We built a fix that doesn't need a protocol. It's called Parley.
+We built a fix that doesn't need a protocol. It's called Clade.
 
 🧵
 
@@ -30,7 +30,7 @@ A local LLM reads both memory stores and reconciles them. That's it.
 
 **Tweet 3 (how it works):**
 
-How Parley works:
+How Clade works:
 
 1. Two agent memory stores (any format — JSON, text, YAML)
 2. Local LLM reads both
@@ -77,17 +77,17 @@ Your agent memories are the most personal data you have. Where you live. What yo
 
 Uploading this to a cloud service to sync your own agents is absurd.
 
-Parley runs on Ollama. Your memories never leave your machine.
+Clade runs on Ollama. Your memories never leave your machine.
 
 ---
 
 **Tweet 7 (CTA):**
 
-Parley is open source. MIT license. ~200 lines of Python. One dependency.
+Clade is open source. MIT license. ~200 lines of Python. One dependency.
 
 If you run multiple AI agents, try syncing them and tell us what breaks.
 
-GitHub: github.com/greatgitsby5/parley
+GitHub: github.com/greatgitsby5/clade
 
 What we need most: adapters for your agent framework. PRs welcome.
 
