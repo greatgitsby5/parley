@@ -65,7 +65,7 @@ Everything runs on your machine. Your memories never leave your hardware.
 ### Install
 
 ```bash
-git clone https://github.com/yourusername/parley.git
+git clone https://github.com/greatgitsby5/parley.git
 cd parley
 pip install -r requirements.txt
 ```
@@ -267,7 +267,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 - **James** — Concept, architecture, product design
 - **Claude (Anthropic)** — Co-architect, implementation partner
 
-Built during the development of [Scope](https://github.com/yourusername/scope), a local-first AI companion.
+Built during the development of [Scope](https://github.com/greatgitsby5/scope), a local-first AI companion.
 
 ## License
 

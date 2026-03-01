@@ -87,7 +87,7 @@ Parley is open source. MIT license. ~200 lines of Python. One dependency.
 
 If you run multiple AI agents, try syncing them and tell us what breaks.
 
-GitHub: github.com/yourusername/parley
+GitHub: github.com/greatgitsby5/parley
 
 What we need most: adapters for your agent framework. PRs welcome.
 

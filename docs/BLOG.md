@@ -62,7 +62,7 @@ But the most important thing is testing with real memories from real agent setup
 
 ## Get It
 
-GitHub: [github.com/yourusername/parley](https://github.com/yourusername/parley)
+GitHub: [github.com/greatgitsby5/parley](https://github.com/greatgitsby5/parley)
 
 MIT licensed. One dependency (Ollama). Works today.
 
